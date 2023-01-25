@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useEffect} from 'react';
 import './App.css';
+import {SearchAppBar} from "./Components/SearchAppBar/SearchAppBar";
+import {BasicTable} from "./Components/Table/BasicTable";
+import {fetching_API} from "./api/api";
+import {useDispatch} from "react-redux";
+import {setItemsAC, setPageAC, setTotalCountAC} from "./redux/reducers/items-reducer";
+import CustomPaginationActionsTable from "./Components/CustomPaginationActionsTable/CustomPaginationActionsTable";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export function App() {
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        fetching_API.getData(5, 1)
+            .then(data => {
+                dispatch(setTotalCountAC(data.total))
+                dispatch(setItemsAC(data.data))
+                dispatch(setPageAC(1));
+            })
+    }, [])
+
+    return (
+        <div>
+            <SearchAppBar/>
+            {/*<BasicTable />*/}
+            <CustomPaginationActionsTable/>
+        </div>
+    );
 }
 
-export default App;
+
