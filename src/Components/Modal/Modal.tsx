@@ -3,7 +3,6 @@ import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../redux/store";
@@ -20,7 +19,7 @@ const style = {
     p: 4,
 };
 
-export function TransitionsModal() {
+export const TransitionsModal= React.memo( () =>{
     const state = useSelector<AppRootStateType, initialStateType>(state => state.data)
     const {modalOpen, rowToModal} = state
 
@@ -55,4 +54,4 @@ export function TransitionsModal() {
                 </Modal>}
         </div>
     );
-}
+})
