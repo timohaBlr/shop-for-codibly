@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/shop-for-codibly/static/css/main.073c9b0a.css",
+    "main.js": "/shop-for-codibly/static/js/main.cc14eacc.js",
+    "static/js/787.454841ec.chunk.js": "/shop-for-codibly/static/js/787.454841ec.chunk.js",
+    "index.html": "/shop-for-codibly/index.html",
+    "main.073c9b0a.css.map": "/shop-for-codibly/static/css/main.073c9b0a.css.map",
+    "main.cc14eacc.js.map": "/shop-for-codibly/static/js/main.cc14eacc.js.map",
+    "787.454841ec.chunk.js.map": "/shop-for-codibly/static/js/787.454841ec.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.cc14eacc.js"
+  ]
+}
