@@ -13,7 +13,7 @@ import {AppRootStateType} from "../../redux/store";
 
 type BasicTablePropsType = {}
 export const BasicTable: React.FC<BasicTablePropsType> = () => {
-    const data = useSelector<AppRootStateType, DataType[]>(state => state.items.data)
+    const data = useSelector<AppRootStateType, DataType[]>(state => state.data.data)
     const mappedRows = data
         ? data.map((row) => (
             <TableRow

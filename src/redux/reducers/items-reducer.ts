@@ -2,8 +2,13 @@ export type initialStateType = {
     page: number
     per_page: number
     total: number
-    total_pages: number
     data: DataType[]
+    pantone_value?: string
+    searchFieldValue: string
+    filter: number | null
+    filteredItem: DataType | null
+    modalOpen: boolean
+    rowToModal: DataType | null
 }
 export type DataType = {
     id: number
@@ -11,10 +16,20 @@ export type DataType = {
     year: number
     color: string
 }
-type ActionType = SetTotalCountActionType | SetPerPageActionType
-    | SetItemsActionType | SetPageActionType
+type ActionType = SetTotalCountActionType | SetPerPageActionType | SetItemsActionType
+    | SetPageActionType | SetSearchFieldValueActionType
+    | SetFilterActionType | SetFilteredItemActionType | OpenModalActionType
+    | SetRowToModalActionType
 const initialState = {
     page: 1,
+    per_page: 5,
+    searchFieldValue: '',
+    data: [] as DataType[],
+    total: 0,
+    filter: null,
+    filteredItem: null,
+    modalOpen: false,
+    rowToModal: null,
 } as initialStateType
 
 const enum ACTION_TYPES {
@@ -22,6 +37,11 @@ const enum ACTION_TYPES {
     SET_PER_PAGE = 'SET_PER_PAGE',
     SET_ITEMS = 'SET_ITEMS',
     SET_PAGE = 'SET_PAGE',
+    SET_SEARCH_FIELD_VALUE = 'SET_SEARCH_FIELD_VALUE',
+    SET_FILTER = 'SET_FILTER',
+    SET_FILTERED_ITEM = 'SET_FILTERED_ITEM',
+    OPEN_MODAL = 'OPEN_MODAL',
+    SET_ROW_TO_MODAL = 'SET_ROW_TO_MODAL',
 }
 
 export const itemsReducer = (state: initialStateType = initialState, action: ActionType): initialStateType => {
@@ -31,15 +51,19 @@ export const itemsReducer = (state: initialStateType = initialState, action: Act
         case ACTION_TYPES.SET_PER_PAGE:
             return {...state, per_page: action.payload.per_page};
         case ACTION_TYPES.SET_ITEMS:
-            const actualData = action.payload.data.map(m => {
-                const {id, name, year, color} = m
-                //  There is no information in the task about  "pantone_value", I decided to remove it
-                //of course 6 new objects are worse for performance than one extra property in the old array, but...i did
-                return {id, name, year, color}
-            })
-            return {...state, data: actualData};
+            return {...state, data: action.payload.data};
         case ACTION_TYPES.SET_PAGE:
             return {...state, page: action.payload.page};
+        case ACTION_TYPES.SET_SEARCH_FIELD_VALUE:
+            return {...state, searchFieldValue: action.payload.value};
+        case ACTION_TYPES.SET_FILTER:
+            return {...state, filter: action.payload.filter};
+        case ACTION_TYPES.SET_FILTERED_ITEM:
+            return {...state, filteredItem: action.payload.filteredItem};
+        case ACTION_TYPES.OPEN_MODAL:
+            return {...state, modalOpen: action.payload.open};
+        case ACTION_TYPES.SET_ROW_TO_MODAL:
+            return {...state, rowToModal: action.payload.modalRow};
         default:
             return state
     }
@@ -79,6 +103,51 @@ export const setPageAC = (page: number) => {
         type: ACTION_TYPES.SET_PAGE,
         payload: {
             page,
+        },
+    } as const
+}
+type SetSearchFieldValueActionType = ReturnType<typeof setSearchFieldValueAC>
+export const setSearchFieldValueAC = (value: string) => {
+    return {
+        type: ACTION_TYPES.SET_SEARCH_FIELD_VALUE,
+        payload: {
+            value,
+        },
+    } as const
+}
+type SetFilterActionType = ReturnType<typeof setFilterAC>
+export const setFilterAC = (filter: number | null) => {
+    return {
+        type: ACTION_TYPES.SET_FILTER,
+        payload: {
+            filter,
+        },
+    } as const
+}
+type SetFilteredItemActionType = ReturnType<typeof setFilteredItemAC>
+export const setFilteredItemAC = (filteredItem: DataType | null) => {
+    return {
+        type: ACTION_TYPES.SET_FILTERED_ITEM,
+        payload: {
+            filteredItem,
+        },
+    } as const
+}
+type OpenModalActionType = ReturnType<typeof openModalAC>
+export const openModalAC = (open: boolean) => {
+    return {
+        type: ACTION_TYPES.OPEN_MODAL,
+        payload: {
+            open,
+        },
+    } as const
+}
+type SetRowToModalActionType = ReturnType<typeof setRowToModalAC>
+export const setRowToModalAC = (modalRow: DataType) => {
+    return {
+        type: ACTION_TYPES.SET_ROW_TO_MODAL,
+        payload: {
+            modalRow,
         },
     } as const
 }

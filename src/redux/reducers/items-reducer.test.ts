@@ -1,10 +1,10 @@
 import {
     DataType,
     initialStateType,
-    itemsReducer,
-    setItemsAC,
+    itemsReducer, openModalAC, setFilterAC, setFilteredItemAC,
+    setItemsAC, setRowToModalAC,
     setPageAC,
-    setPerPageAC,
+    setPerPageAC, setSearchFieldValueAC,
     setTotalCountAC
 } from "./items-reducer";
 let state = {} as initialStateType;
@@ -42,4 +42,42 @@ test('items should be set',()=> {
     const newState = itemsReducer(state,setItemsAC(data))
     expect(state).not.toBe(newState)
     expect(newState.data).toStrictEqual(data)
+})
+test('search field should be updated',()=> {
+    const newValue = '5'
+    const newState = itemsReducer(state,setSearchFieldValueAC(newValue))
+
+    expect(state).not.toBe(newState)
+    expect(newState.searchFieldValue).toBe(newValue)
+})
+
+test('current filter should be set',()=> {
+    const newVFilter = 3
+    const newState = itemsReducer(state,setFilterAC(newVFilter))
+
+    expect(state).not.toBe(newState)
+    expect(newState.filter).toBe(newVFilter)
+})
+
+test('filtered item should be set',()=> {
+    const filteredItem = {id: 3, name: 'Test', year: 2000, color: 'red'}
+    const newState = itemsReducer(state,setFilteredItemAC(filteredItem))
+
+    expect(state).not.toBe(newState)
+    expect(newState.filteredItem).toStrictEqual(filteredItem)
+})
+
+test('modalOpen changes to true',()=> {
+    const newState = itemsReducer(state,openModalAC(true))
+
+    expect(state).not.toBe(newState)
+    expect(newState.modalOpen).toBeTruthy()
+})
+
+test('row for modal should be set',()=> {
+    const rowForModal = {id: 3, name: 'Test', year: 2000, color: 'red'}
+    const newState = itemsReducer(state,setRowToModalAC(rowForModal))
+
+    expect(state).not.toBe(newState)
+    expect(newState.rowToModal).toStrictEqual(rowForModal)
 })
