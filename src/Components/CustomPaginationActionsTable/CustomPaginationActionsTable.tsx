@@ -17,18 +17,12 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../redux/store";
 import {
-    DataType,
     initialStateType, openModalAC,
     setPageAC,
     setPerPageAC, setRowToModalAC,
 } from "../../redux/reducers/items-reducer";
 import {useCallback} from "react";
 import TableHead from "@mui/material/TableHead";
-import Modal from "@mui/material/Modal";
-import Backdrop from "@mui/material/Backdrop";
-import Fade from "@mui/material/Fade";
-import Typography from "@mui/material/Typography";
-import {useSearchParams} from "react-router-dom";
 
 interface TablePaginationActionsProps {
     count: number;
@@ -96,7 +90,7 @@ const TablePaginationActions = React.memo((props: TablePaginationActionsProps) =
 })
 
 
-export default function CustomPaginationActionsTable() {
+export const CustomPaginationActionsTable = React.memo(() => {
 
     const dispatch = useDispatch()
     const state = useSelector<AppRootStateType, initialStateType>(state => state.data)
@@ -130,13 +124,10 @@ export default function CustomPaginationActionsTable() {
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows = rowsPerPage - rows.length
-    const [searchParams, setSearchParams] = useSearchParams({})
     const handleChangePage = useCallback((
         event: React.MouseEvent<HTMLButtonElement> | null,
         newPage: number,
     ) => {
-       /* const newSearchParam = String(newPage + 1)
-        setSearchParams({id: newSearchParam})*/
         dispatch(setPageAC(newPage + 1))
     }, [dispatch]);
 
@@ -189,4 +180,4 @@ export default function CustomPaginationActionsTable() {
         </TableContainer>
 
     );
-}
+})

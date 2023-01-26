@@ -7,6 +7,7 @@ import {
     setPerPageAC, setSearchFieldValueAC,
     setTotalCountAC
 } from "./items-reducer";
+
 let state = {} as initialStateType;
 beforeEach(()=> {
     state = {} as initialStateType
